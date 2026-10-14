@@ -1,0 +1,38 @@
+[
+  {
+    "service_type": "trade8:desk",
+    "binary": "trade8-desk",
+    "start_priority": 10,
+    "database_env_vars": ["TRADE8_DESK_DATABASE_URL"]
+  },
+  {
+    "service_type": "trade8:risk",
+    "binary": "trade8-risk",
+    "start_priority": 10,
+    "database_env_vars": ["TRADE8_RISK_DATABASE_URL"]
+  },
+  {
+    "service_type": "trade8:feed",
+    "binary": "trade8-feed",
+    "start_priority": 10,
+    "database_env_vars": ["TRADE8_FEED_DATABASE_URL"]
+  },
+  {
+    "service_type": "trade8:router",
+    "binary": "trade8-router",
+    "start_priority": 20,
+    "database_env_vars": ["TRADE8_ROUTER_DATABASE_URL"]
+  },
+  {
+    "service_type": "trade8:bars",
+    "binary": "trade8-bars",
+    "start_priority": 30,
+    "database_env_vars": ["TRADE8_BARS_DATABASE_URL"]
+  },
+  {
+    "service_type": "trade8:pnl",
+    "binary": "trade8-pnl",
+    "start_priority": 30,
+    "database_env_vars": ["TRADE8_PNL_DATABASE_URL"]
+  }
+]
