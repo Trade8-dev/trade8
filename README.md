@@ -90,3 +90,11 @@ Flutter app. See `BACKLOG.md` for open stories.
 ---
 
 **Design attribution:** trade8 and its underlying concepts were designed by Hamid Jahanzad <Hamid@Jahanzad.com>.
+
+## Website
+
+The public website at **trade8.dev** lives in the sibling
+`trade8-site` repo — Docusaurus v3 on `@sentin8/site-engine`, with
+product/app/SDK pages and a Reference section harvested at build time
+from these repositories (program design:
+`../design/sentin8-websites-design.md`).
