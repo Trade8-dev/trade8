@@ -420,7 +420,6 @@ flowchart TD
 
 ## 7. Concurrency & Performance Model
 
-- **Allocators** — mimalloc global allocator in every service binary
   (wasm32 strategies exempt); master-design cross-cutting decision.
 - **Hot-path budgets** (master §11; harness-pinned per service): order
   acceptance P50 < 5 ms / P99 < 25 ms in-envelope; quote-to-SSE < 1 ms;
