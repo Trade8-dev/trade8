@@ -142,14 +142,14 @@ sequenceDiagram
     participant SVC as trade8 service
     participant DB as db trade8 (own schema)
     participant BUS as sentin8:bus
-    CAP->>SH: start binary (catalog priority; DSN env = TRADE8_{LEAF}_DATABASE_URL)
+    CAP->>SH: start binary (catalog priority, DSN env = TRADE8_{LEAF}_DATABASE_URL)
     SH->>SH: fail-fast: DSN must name db trade8 (VDC-1)
     SH->>SVC: with_state(core): M2M DCR, Shield boot load, pool cap
     SVC->>DB: bootstrap (catalog/snapshot/links) on boot-env context
     SH->>DB: boot outbox+audit relay (8b): NOTIFY + 5s poll → POST /v1/produce
     SVC->>BUS: spawn bus consumer groups (SSE, ack/nack)
     SVC->>SH: with_router(extend_router): public + admin + policy routes
-    Note over SVC,DB: health at /v1/health; registration via --print-registration
+    Note over SVC,DB: health at /v1/health, registration via --print-registration
 ```
 
 ### Request lifecycle — the authoritative order-submit family
