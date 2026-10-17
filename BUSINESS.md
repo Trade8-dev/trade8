@@ -1,4 +1,4 @@
-# BUSINESS.md: Trade8 — Vertical Business Requirements & Functionality
+# Trade8 — Vertical Business Requirements & Functionality
 
 > Audience: product owners, business analysts, and anyone evaluating what
 > the **trade8 vertical does for the business** as a whole. For architecture

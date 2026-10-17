@@ -1,4 +1,4 @@
-# DESIGN.md: Trade8 — Vertical Detailed Design Document
+# Trade8 — Vertical Detailed Design Document
 
 > Audience: maintainers, reviewers, and architects working anywhere in the
 > trade8 workspace. This document is the **vertical map**: what exists, how
