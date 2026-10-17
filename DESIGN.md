@@ -480,6 +480,17 @@ Deliberately **not** tested in this workspace: platform transport (sentin8),
 broker live-wire behavior (sim/parity adapters cover), venue matching
 (exchange8).
 
+## 9.1 Fleet-run scope (group operations, STARTSCOPE-1)
+
+The group Makefile's `make start` boots ONLY the platform base
+(`sentin8:acme, sentin8:auth, sentin8:proxy, sentin8:bus, sentin8:sys,
+sentin8:bff, sentin8:web`) plus this group's services — the
+`SENTIN8_SERVICES` boot pin when captain is down, the idempotent
+`captain start <types>` API form when it is up. `make stop` stops only
+this group's instance rows (the captain and platform stay up). The
+full rule (service / group / tree-root scopes and the platform-scoped
+dev reset): `design/sentin8-repository-split-design.md` §4.5.2.
+
 ## 10. Open Questions (vertical-level)
 
 - **Dead event constants** — prune or emit `catalog:updated`,
