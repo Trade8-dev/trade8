@@ -1,4 +1,4 @@
-# Trade8 — Vertical Detailed Design Document
+# Trade8 - Vertical Detailed Design Document
 
 > Audience: maintainers, reviewers, and architects working anywhere in the
 > trade8 workspace. This document is the **vertical map**: what exists, how
@@ -12,19 +12,19 @@
 Trade8 is the Sentin8 **broker-dealer / professional-trading vertical**. It
 owns, as one deployed unit:
 
-- **Order management** — the full order lifecycle (submit → authorize →
+- **Order management** - the full order lifecycle (submit → authorize →
   accept → route → fill → terminal), working order state, overnight parking,
   the short-sale locate pool, session control, and the reference catalogs.
-- **Pre-trade risk** — the synchronous authorization gate and the
+- **Pre-trade risk** - the synchronous authorization gate and the
   trader-state/limit/restriction administration behind it.
-- **Broker connectivity** — FIX 4.2/4.4 + OUCH 3.1 client sessions,
+- **Broker connectivity** - FIX 4.2/4.4 + OUCH 3.1 client sessions,
   destination routing, message templates, fee charging, fills.
-- **Market data** — vendor-feed ingestion, normalization, NBBO-style
+- **Market data** - vendor-feed ingestion, normalization, NBBO-style
   consolidation, entitlement-gated SSE streaming, price alerts.
-- **Bar aggregation** — OHLCV bars (1s–1D), EOD roll-up, history API.
-- **Day P&L** — event-sourced positions, realized/unrealized, LFT,
+- **Bar aggregation** - OHLCV bars (1s–1D), EOD roll-up, history API.
+- **Day P&L** - event-sourced positions, realized/unrealized, LFT,
   summaries, overnight carry.
-- **The trader app** — `etrader` (Flutter), a pure BFF client.
+- **The trader app** - `etrader` (Flutter), a pure BFF client.
 
 **Deliberately out of scope** (owned elsewhere): identity/sign-in and the
 authorization *decision* (Sentin8:Auth + Shield); token issuance to clients
@@ -38,7 +38,7 @@ venue-side matching/clearing (exchange8, a sibling vertical).
 graph TD
     TRADER[Trader / manager] --> APP[etrader trader app]
     ADMIN[Catalog / risk / ops admin] --> DASH[sentin8:dash RFW pages]
-    subgraph trade8[trade8 vertical — this workspace]
+    subgraph trade8[trade8 vertical - this workspace]
         APP -- "BFF-only transport" --> BFF[sentin8:bff]
         BFF -- "/proxy/trade8/v1/*, SSE, WS" --> SERVICES[the six services]
     end
@@ -56,7 +56,7 @@ graph TD
         APP[etrader] --> BFF
         DASH --> PROXY[/proxy/trade8 admin views/]
     end
-    subgraph svcs[trade8 services — Rust binaries on sentin8 shell]
+    subgraph svcs[trade8 services - Rust binaries on sentin8 shell]
         DESK[trade8-desk<br/>orders · catalogs · borrow · session]
         RISK[trade8-risk<br/>authorize gate · trader state]
         ROUTER[trade8-router<br/>FIX/OUCH · routes · fees · fills]
@@ -77,7 +77,7 @@ graph TD
         BASKET[basket-runner on_basket]
         PALERTS[price-alerts on_quote]
     end
-    subgraph data[db trade8 — one database, schema per service]
+    subgraph data[db trade8 - one database, schema per service]
         SCHEMA_DESK[(desk schema, 30 tables)]
         SCHEMA_ROUTER[(router)]
         SCHEMA_RISK[(risk)]
@@ -110,19 +110,19 @@ graph TD
 
 ```mermaid
 graph LR
-    subgraph hot[Order hot path — sub-second]
+    subgraph hot[Order hot path - sub-second]
         A[Trader submit<br/>WS or REST] --> B[Desk: structural checks<br/>Pending order]
         B -- "M2M POST /v1/authorize" --> C[Risk: snapshot verdict<br/>µs-class math]
         C -- allow --> D[Desk: one tx = order +<br/>order_event + outbox]
         D -- "bus: order:accepted" --> E[Router: route → lease →<br/>journal → order:routed]
         E --> F[Broker]
     end
-    subgraph fast[Market-data path — streaming]
+    subgraph fast[Market-data path - streaming]
         G[Vendors] --> H[Feed adapters] --> I[Normalizer + consolidation]
         I -- "SSE frames" --> APP
         I -- "outbox events" --> BUS2[bus]
     end
-    subgraph derived[Derived-state path — event-driven]
+    subgraph derived[Derived-state path - event-driven]
         E -- "fill:executed" --> J1[Pnl: positions + summaries]
         I -- "trade:printed" --> J1
         I -- "trade:printed" --> J2[Bars: bucket FSMs]
@@ -152,7 +152,7 @@ sequenceDiagram
     Note over SVC,DB: health at /v1/health, registration via --print-registration
 ```
 
-### Request lifecycle — the authoritative order-submit family
+### Request lifecycle - the authoritative order-submit family
 
 ```mermaid
 sequenceDiagram
@@ -177,7 +177,7 @@ sequenceDiagram
     end
 ```
 
-### Request lifecycle — the market-data stream family
+### Request lifecycle - the market-data stream family
 
 ```mermaid
 sequenceDiagram
@@ -226,11 +226,11 @@ erDiagram
 
 | Schema | Owned tables (selection) | Read grants declared by |
 |---|---|---|
-| `desk` (30) | `"order"`, `order_event`, `overnight_order`, `keystroke_log`, `short_pool`, `short_pool_office_block`, `borrow_list`, `short_exempt`, catalogs (`market`, `symbol`, `future`, `destination`, `gateway`, `msg_template`, `fee_catalog`, `office`, `trader_profile`, …), `sequence` | — (reads nothing) |
-| `router` (4) | `message` (wire journal), `session` (seq/state), `order_transaction` (fills — sole writer), `fill_fix_tags` | `desk.{destination,gateway,market_gateway_destination,office_broker,msg_template}` |
+| `desk` (30) | `"order"`, `order_event`, `overnight_order`, `keystroke_log`, `short_pool`, `short_pool_office_block`, `borrow_list`, `short_exempt`, catalogs (`market`, `symbol`, `future`, `destination`, `gateway`, `msg_template`, `fee_catalog`, `office`, `trader_profile`, …), `sequence` | - (reads nothing) |
+| `router` (4) | `message` (wire journal), `session` (seq/state), `order_transaction` (fills - sole writer), `fill_fix_tags` | `desk.{destination,gateway,market_gateway_destination,office_broker,msg_template}` |
 | `risk` (8) | `limit`, `trader_state`, `execution_restriction`, `max_orders_restriction`, `allowed_symbol`, `level`, `action`, `level_action` | `desk.short_exempt` |
-| `feed` (4) | `feed_link` (secret-ref credentials), `quote_source`, `alert_rule`, `alert` | — |
-| `bars` (7) | `bar_1s…bar_1h` (LIKE base), `bar_1d` (+vwap/official), `eod_report` | — |
+| `feed` (4) | `feed_link` (secret-ref credentials), `quote_source`, `alert_rule`, `alert` | - |
+| `bars` (7) | `bar_1s…bar_1h` (LIKE base), `bar_1d` (+vwap/official), `eod_report` | - |
 | `pnl` (5) | `opening_balance`, `position_snapshot`, `symbol_resume`, `trader_summary`, `office_summary` | `desk.currency` |
 
 Cross-service read access is **declared, not blanket** (register
@@ -301,7 +301,7 @@ Every service also mounts the shared Shield policy-admin block
 
 ### Event vocabulary (`trade8::contracts::events`)
 
-Naming law: `vertical:service:resource:operation` — colon-separated, no
+Naming law: `vertical:service:resource:operation` - colon-separated, no
 dots (test-enforced in the contracts crate). Delivery is outbox-first
 (`{leaf}.outbox` row in the domain tx → shell relay → Bus `POST /v1/produce`
 → SSE consumer groups → ack/nack → DLQ).
@@ -362,7 +362,7 @@ Consumer wiring (SSE groups over `trade8::client::run_consumer`):
 ```mermaid
 graph LR
     REQ[request] --> V[1 verify token<br/>issuer/sig/expiry/aud/type]
-    V --> T[2 resolve tenant<br/>env_id — reject if unresolvable]
+    V --> T[2 resolve tenant<br/>env_id - reject if unresolvable]
     T --> FG[3 feature gate]
     FG --> AUTH[4+5 Shield authorize<br/>RBAC+ABAC+ReBAC, live roles]
     AUTH --> RLS[6 set RLS context<br/>transaction-local, same conn/tx]
@@ -370,25 +370,25 @@ graph LR
     EX --> AUD[8 audit journal<br/>local row → Sys ingest, retried]
 ```
 
-- **Authorization** — every route evaluates the embedded Shield engine at
+- **Authorization** - every route evaluates the embedded Shield engine at
   step 5; policy sets are seeded per service (`scope-mirror` over the live
   effective scope set), hot-reloaded; step 5 is the only gate.
-- **Tenant isolation** — `set_tenant_context` + `begin()` on the same
+- **Tenant isolation** - `set_tenant_context` + `begin()` on the same
   connection; explicit `WHERE env_id = $N` defense-in-depth; RLS is the
   backstop (probe-role matrix tests prove 0-rows without context).
-- **Idempotency** — client order ids (Desk), transaction ids (fills),
+- **Idempotency** - client order ids (Desk), transaction ids (fills),
   atomic sequence leases (Router), merge upserts (Bars), fill dedupe
   (Pnl), bounded-queue backpressure everywhere fan-out exists.
-- **Secrets** — provider credentials live as *references*
+- **Secrets** - provider credentials live as *references*
   (`credentials_ref`) in `desk.destination` / `feed.feed_link`; no
   plaintext anywhere in the vertical's tables.
-- **TLS** — post-quantum platform TLS (`sentin8-tls`: X25519MLKEM768,
+- **TLS** - post-quantum platform TLS (`sentin8-tls`: X25519MLKEM768,
   ML-DSA-65); service-to-service calls present the workload certificate
-  (auth DESIGN §4.3f — no M2M token); the BFF holds
+  (auth DESIGN §4.3f - no M2M token); the BFF holds
   user tokens server-side (the app never sees one).
-- **Audit** — desk `keystroke_log` + per-schema `audit_journal` rows in the
+- **Audit** - desk `keystroke_log` + per-schema `audit_journal` rows in the
   domain tx; Sys ingest is retried until pushed.
-- **Drain** — service restarts go through Sentin8:Captain
+- **Drain** - service restarts go through Sentin8:Captain
   (`make upgrade-instance`); sessions/engines are DB-backed so the swap
   is seamless.
 
@@ -413,7 +413,7 @@ flowchart TD
 ```
 
 - The full day-reconstruction procedure is scripted: `docs/dr-replay-runbook.md`
-  (`make drill-replay`) — quarterly drill, byte-equal convergence required.
+  (`make drill-replay`) - quarterly drill, byte-equal convergence required.
 - Every durable write is either (a) idempotent-under-redelivery or
   (b) transactional with the journal; no dual-written financial state
   exists anywhere in the vertical.
@@ -424,37 +424,37 @@ flowchart TD
 - **Hot-path budgets** (master §11; harness-pinned per service): order
   acceptance P50 < 5 ms / P99 < 25 ms in-envelope; quote-to-SSE < 1 ms;
   bar roll-up and fill-to-summary in their CI-harness budgets.
-- **State shapes** — Desk: mutex-guarded working map + snapshot catalog;
+- **State shapes** - Desk: mutex-guarded working map + snapshot catalog;
   Risk: single `arc-swap` snapshot generation per authorize + mutex journal
   maps; Feed: `RwLock` maps + broadcast SSE channel; Bars: `RwLock` bucket
   FSMs; Pnl: `RwLock` books/summaries + dedupe set; Router: consumer loop +
   atomic SQL leases. All locks guard pure in-memory operations only (no
   I/O under lock).
-- **Pools** — `sentin8_config::pg_pool::connect` caps every pool
+- **Pools** - `sentin8_config::pg_pool::connect` caps every pool
   (`SENTIN8_PG_POOL_MAX`); store calls are tx-scoped (≤1 connection per
   request).
-- **Backpressure** — bounded mpsc (adapters), bounded broadcast + per-topic
+- **Backpressure** - bounded mpsc (adapters), bounded broadcast + per-topic
   seq (SSE), bounded queues (fan-out), SQL-side lease/downgrade instead of
   in-process scheduling.
 
 ## 8. Invariants, Insecure-Defaults Rejected, Unsafe Rationale
 
-1. **One writer per financial record** — Desk writes orders/ journal;
+1. **One writer per financial record** - Desk writes orders/ journal;
    Router is the sole writer of fills (relocated from Desk deliberately);
    Pnl writes only derived positions/summaries.
-2. **No un-authorized acceptance** — Desk accepts only on a Risk allow
+2. **No un-authorized acceptance** - Desk accepts only on a Risk allow
    verdict, fail-closed when Risk is unreachable.
-3. **No cross-service table access without declaration** — the three read
+3. **No cross-service table access without declaration** - the three read
    grants in §3 are the complete list; everything else is API/events.
-4. **Money never floats** — `trade8::fixed` raw integers + explicit scale
+4. **Money never floats** - `trade8::fixed` raw integers + explicit scale
    end-to-end (×10⁴ money, instrument tick scales, ×10⁸ crypto).
-5. **Event names are the contract** — colon-separated four-segment names,
+5. **Event names are the contract** - colon-separated four-segment names,
    verified by contract tests; consumers dedupe on idempotency keys.
 6. **Secrets by reference**; no plaintext credentials, tokens, or keys in
    any trade8 table.
 7. **No `unsafe` blocks** in the workspace; codecs verify checksums/frame
-   lengths and return typed errors — ingest paths never panic on bad input.
-8. **Journal-first** — every derived surface (positions, fills, bars) is
+   lengths and return typed errors - ingest paths never panic on bad input.
+8. **Journal-first** - every derived surface (positions, fills, bars) is
    reconstructable from the event log + opening balances.
 
 ## 9. Testing Strategy
@@ -484,7 +484,7 @@ broker live-wire behavior (sim/parity adapters cover), venue matching
 
 The group Makefile's `make start` boots ONLY the platform base
 (`sentin8:acme, sentin8:auth, sentin8:proxy, sentin8:bus, sentin8:sys,
-sentin8:bff, sentin8:web`) plus this group's services — the
+sentin8:bff, sentin8:web`) plus this group's services - the
 `SENTIN8_SERVICES` boot pin when captain is down, the idempotent
 `captain start <types>` API form when it is up. `make stop` stops only
 this group's instance rows (the captain and platform stay up). The
@@ -493,20 +493,20 @@ dev reset): `design/sentin8-repository-split-design.md` §4.5.2.
 
 ## 10. Open Questions (vertical-level)
 
-- **Dead event constants** — prune or emit `catalog:updated`,
+- **Dead event constants** - prune or emit `catalog:updated`,
   `borrow:reserved/*`, `restriction:updated`; and confirm the async basket
   trigger (`order:batch-requested`) vs the synchronous batch path.
-- **Router socket transport** — dial-out for native FIX/OUCH endpoints
+- **Router socket transport** - dial-out for native FIX/OUCH endpoints
   (state machines, codecs, resend windows are ready; the transport wiring
   remains).
-- **Session-open anchor for Bars** — per-day Cron reset vs calendar read.
+- **Session-open anchor for Bars** - per-day Cron reset vs calendar read.
 - **Cold-tier replay loop** (Bars archive → rehydrate; Pnl journal-first
   replay beyond bus retention).
-- **Deny-by-default trader states** — env opt-in instead of
+- **Deny-by-default trader states** - env opt-in instead of
   active-by-default.
-- **Registration/route parity** — a few `registration.rs` data-endpoint
+- **Registration/route parity** - a few `registration.rs` data-endpoint
   declarations have no route (or vice versa): implement or prune.
-- **Catalog replication across envs** — owner-env authoring vs per-env
+- **Catalog replication across envs** - owner-env authoring vs per-env
   copies reconciled by events.
 
 ---

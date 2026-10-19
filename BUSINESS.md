@@ -1,4 +1,4 @@
-# Trade8 — Vertical Business Requirements & Functionality
+# Trade8 - Vertical Business Requirements & Functionality
 
 > Audience: product owners, business analysts, and anyone evaluating what
 > the **trade8 vertical does for the business** as a whole. For architecture
@@ -74,7 +74,7 @@ graph LR
 | Entry | Session-aware acceptance | Orders are accepted only in session state that allows them; rejects are explicit |
 | Gating | Fail-closed authorization | No Risk verdict ⇒ no acceptance; denies carry the itemized check trace into the blotter |
 | Gating | Instant supervision | Closing-only/disable flips a trader within a second, without touching credentials |
-| Routing | Any broker, one model | FIX/OUCH dialect differences are data (templates, fee formulas) — no code per broker |
+| Routing | Any broker, one model | FIX/OUCH dialect differences are data (templates, fee formulas) - no code per broker |
 | Routing | Zero-impact rehearsals | Shadow destinations run the full pipeline without sending |
 | Data | Snapshot-then-live streaming | A subscriber sees the current state first, then sequenced live frames with resync on gaps |
 | Alerts | Sub-second alerting | Declarative rules fire within a second; complex tenant logic rides Func hooks |
@@ -120,22 +120,22 @@ outbox-first (durable) and idempotent at the consumer.
 1. **No order is accepted without pre-trade authorization**, and an
    unreachable gate rejects rather than waves orders through.
 2. **Every financial record has exactly one writer** (orders: Desk; fills:
-   Router; positions: Pnl) — no dual-write drift is representable.
+   Router; positions: Pnl) - no dual-write drift is representable.
 3. **Every order action is attributed** (actor + on-behalf-of) and journaled
-   — keystroke/audit completeness is regulator-grade.
+   - keystroke/audit completeness is regulator-grade.
 4. **Broker credentials and vendor secrets are references**, never
    plaintext, in any table or response.
-5. **Money is exact** — scaled-integer arithmetic everywhere; no float ever
+5. **Money is exact** - scaled-integer arithmetic everywhere; no float ever
    touches a price, fee, or P&L number.
 6. **Overnight continuity is exact-or-visible**: carry mismatches surface
    as events and an ops queue, never silently roll forward.
-7. **Tenant isolation is total** — schema-per-service RLS with declared
+7. **Tenant isolation is total** - schema-per-service RLS with declared
    cross-schema reads only; a request without tenant context is rejected.
-8. **Event delivery is at-least-once with idempotent consumers** —
+8. **Event delivery is at-least-once with idempotent consumers** -
    redelivery never double-charges a fee, double-fills a position, or
    double-fires an alert.
-9. **The client app holds no tokens** — all traffic is BFF-proxied.
-10. **Reconstruction always converges** — replay of journal + opening
+9. **The client app holds no tokens** - all traffic is BFF-proxied.
+10. **Reconstruction always converges** - replay of journal + opening
     balances reproduces the day's numbers byte-equal (drill-enforced).
 
 ## 6. Target-User Roles & Use Cases
@@ -186,7 +186,7 @@ outbox-first (durable) and idempotent at the consumer.
 ## 9. Acceptance Criteria
 
 1. A trader can sign in and, with keyboard only, enter → see accepted in the
-   blotter → watch fills land in P&L — within seconds, on any device.
+   blotter → watch fills land in P&L - within seconds, on any device.
 2. A supervisor can lock a trader (closing-only/disable) in under a second
    with reason + attribution.
 3. A denied order shows in the blotter with its full itemized check trace.
@@ -209,7 +209,7 @@ outbox-first (durable) and idempotent at the consumer.
   and what is the per-venue certification checklist?
 - Should the loss ladder auto-trigger *flattening* (with whose approval), or
   remain close-only/disable?
-- Market-data redistribution policies (per-office quotas) — Shield
+- Market-data redistribution policies (per-office quotas) - Shield
   attributes vs. Feed throttling?
 - Does the business want intrabar live pushes in the app (vs. pull
   snapshots), and at what throttle?

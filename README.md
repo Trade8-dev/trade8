@@ -29,7 +29,7 @@ Each service directory carries its `README.md` (overview),
 | `services/` | The six deployable services (binaries + per-service SQL + tests) |
 | `crates/` | Shared libraries: `contracts` (domain types), `fixed` (money math), `fix`/`ouch` (wire codecs), `feed-adapters` (vendor parsers), `trade8-client` (bus/service/cron plumbing) |
 | `strategies/` | Sentin8:Func WASM strategy modules (flatten, basket, composite alerts) |
-| `sdk/rust/trade8` | The `{workspace}::{leaf}` namespace facade — consumers import as `trade8::contracts::…` etc. |
+| `sdk/rust/trade8` | The `{workspace}::{leaf}` namespace facade - consumers import as `trade8::contracts::…` etc. |
 | `apps/etrader` | The Flutter trader app (BFF-only transport) |
 | `sql/` | Seed, probe, RLS-check, parity-audit, disposition-audit SQL |
 | `docs/` | Operational runbooks (DR replay) |
@@ -43,12 +43,12 @@ Start here, then drill in:
 | Document | Role |
 |---|---|
 | `README.md` (this file) | What the vertical is; workspace layout; how to run it |
-| `BUSINESS.md` | The vertical's business requirements — capabilities, rules, personas, KPIs, acceptance criteria |
-| `DESIGN.md` | Vertical detailed design — system/container views, data model, event vocabulary, cross-cutting invariants, testing |
+| `BUSINESS.md` | The vertical's business requirements - capabilities, rules, personas, KPIs, acceptance criteria |
+| `DESIGN.md` | Vertical detailed design - system/container views, data model, event vocabulary, cross-cutting invariants, testing |
 | `services/*/README.md` + `DESIGN.md` + `BUSINESS.md` | Per-service overview, wire-level detail, business functionality |
 | `crates/*/README.md` | Shared-library contracts (types, money math, codecs, adapters, client plumbing) |
 | `strategies/README.md` + `strategies/*/README.md` | The Sentin8:Func strategy modules (flatten, basket, alerts) |
-| `apps/etrader/README.md` + `BUSINESS.md` | The trader app — structure and business view |
+| `apps/etrader/README.md` + `BUSINESS.md` | The trader app - structure and business view |
 | `packaging/README.md` | Debian packaging + post-install platform flow |
 | `docs/dr-replay-runbook.md` | Disaster-recovery / day-reconstruction drill |
 
@@ -56,7 +56,7 @@ Start here, then drill in:
 
 ## App
 
-- **`etrader`** — Flutter trader app (web/mobile/desktop) via the Sentin8
+- **`etrader`** - Flutter trader app (web/mobile/desktop) via the Sentin8
   App Store. All traffic through Sentin8:BFF (`/proxy/trade8/...`,
   SSE `/subscribe`, WS `/ws`).
 
@@ -94,7 +94,7 @@ Flutter app. See `BACKLOG.md` for open stories.
 ## Website
 
 The public website at **trade8.dev** lives in the sibling
-`trade8-site` repo — Docusaurus v3 on `@sentin8/site-engine`, with
+`trade8-site` repo - Docusaurus v3 on `@sentin8/site-engine`, with
 product/app/SDK pages and a Reference section harvested at build time
 from these repositories (program design:
 `../design/sentin8-websites-design.md`).
