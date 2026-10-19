@@ -21,7 +21,7 @@ owns, as one deployed unit:
   destination routing, message templates, fee charging, fills.
 - **Market data** - vendor-feed ingestion, normalization, NBBO-style
   consolidation, entitlement-gated SSE streaming, price alerts.
-- **Bar aggregation** - OHLCV bars (1s–1D), EOD roll-up, history API.
+- **Bar aggregation** - OHLCV bars (1s-1D), EOD roll-up, history API.
 - **Day P&L** - event-sourced positions, realized/unrealized, LFT,
   summaries, overnight carry.
 - **The trader app** - `etrader` (Flutter), a pure BFF client.

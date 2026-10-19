@@ -35,7 +35,7 @@
 | Broker connectivity: FIX 4.2/4.4 + OUCH 3.1 sessions, routing, fees, fills | Trade8:Router | `services/router/BUSINESS.md` |
 | Market data: vendor adapters, consolidated quotes/ladders, SSE streaming | Trade8:Feed | `services/feed/BUSINESS.md` |
 | Price alerts (declarative + tenant-authored composite conditions) | Trade8:Feed (+Func) | `services/feed/BUSINESS.md` |
-| OHLCV bars (1s–1D), intraday candles, history windows, EOD finalization | Trade8:Bars | `services/bars/BUSINESS.md` |
+| OHLCV bars (1s-1D), intraday candles, history windows, EOD finalization | Trade8:Bars | `services/bars/BUSINESS.md` |
 | Day P&L: positions, realized/unrealized, fees, LFT, office roll-ups | Trade8:Pnl | `services/pnl/BUSINESS.md` |
 | Overnight carry + reconciliation (mismatches surfaced, never silent) | Trade8:Pnl (+Desk) | `services/pnl/BUSINESS.md` |
 | Trading keyboard (F-key chain), ladder/tape/charts, P&L board | etrader app | `apps/etrader/BUSINESS.md` |

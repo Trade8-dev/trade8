@@ -16,7 +16,7 @@ app (`etrader`) and Dash RFW admin pages.
 | `trade8-router` | FIX 4.2/4.4 + OUCH 3.1 broker sessions, destination routing, fees, fills | `services/router/README.md` |
 | `trade8-risk` | Synchronous pre-trade authorization gate (limits, restrictions, trader state) | `services/risk/README.md` |
 | `trade8-feed` | Vendor feed adapters → L1/L2/imbalance prints → entitlement-gated SSE | `services/feed/README.md` |
-| `trade8-bars` | OHLCV bars (1s–1D), EOD roll-up, history API | `services/bars/README.md` |
+| `trade8-bars` | OHLCV bars (1s-1D), EOD roll-up, history API | `services/bars/README.md` |
 | `trade8-pnl` | Event-sourced positions, day P&L, overnight carry, office roll-ups | `services/pnl/README.md` |
 
 Each service directory carries its `README.md` (overview),
