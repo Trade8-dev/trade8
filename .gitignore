@@ -10,3 +10,6 @@
 *.swp
 .idea/
 .vscode/
+
+# Scratch (AGENTS.md: temp files live under .tmp/)
+/.tmp/
