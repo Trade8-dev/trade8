@@ -1,5 +1,7 @@
 # Trade8
 
+> Secure Post-Quantum-Safe Trading Platform That Heals and Scales Itself.
+
 Trade8 is the Sentin8 **professional-trading / broker-dealer** vertical:
 multi-tenant order management, pre-trade risk, day P&L, market-data
 distribution, and broker connectivity (FIX 4.2/4.4, OUCH 3.1) for

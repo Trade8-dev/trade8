@@ -1,5 +1,7 @@
 # Trade8 - Vertical Detailed Design Document
 
+> Secure Post-Quantum-Safe Trading Platform That Heals and Scales Itself.
+
 > Audience: maintainers, reviewers, and architects working anywhere in the
 > trade8 workspace. This document is the **vertical map**: what exists, how
 > the pieces fit, and the invariants that hold across services. Per-unit

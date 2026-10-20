@@ -1,5 +1,7 @@
 # Trade8 - Vertical Business Requirements & Functionality
 
+> Secure Post-Quantum-Safe Trading Platform That Heals and Scales Itself.
+
 > Audience: product owners, business analysts, and anyone evaluating what
 > the **trade8 vertical does for the business** as a whole. For architecture
 > read the top-level `README.md`; for wire-level detail read the top-level
