@@ -145,7 +145,7 @@ sequenceDiagram
     participant DB as db trade8 (own schema)
     participant BUS as sentin8:bus
     CAP->>SH: start binary (catalog priority, DSN env = TRADE8_{LEAF}_DATABASE_URL)
-    SH->>SH: fail-fast: DSN must name db trade8 (VDC-1)
+    SH->>SH: fail-fast: DSN must name db trade8
     SH->>SVC: with_state(core): M2M DCR, Shield boot load, pool cap
     SVC->>DB: bootstrap (catalog/snapshot/links) on boot-env context
     SH->>DB: boot outbox+audit relay (8b): NOTIFY + 5s poll → POST /v1/produce
@@ -482,7 +482,7 @@ Deliberately **not** tested in this workspace: platform transport (sentin8),
 broker live-wire behavior (sim/parity adapters cover), venue matching
 (exchange8).
 
-## 9.1 Fleet-run scope (group operations, STARTSCOPE-1)
+## 9.1 Fleet-run scope (group operations,)
 
 The group Makefile's `make start` boots ONLY the platform base
 (`sentin8:acme, sentin8:auth, sentin8:proxy, sentin8:bus, sentin8:sys,
