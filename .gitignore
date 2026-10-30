@@ -13,3 +13,6 @@
 
 # Scratch (AGENTS.md: temp files live under .tmp/)
 /.tmp/
+
+# Local org-repo clone (never commit)
+/.github/
